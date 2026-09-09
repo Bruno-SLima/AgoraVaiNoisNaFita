@@ -74,6 +74,23 @@ namespace GestaoDeUsuarios.Controllers
 
             return Ok(new { mensagem = "Usuário atualizado com sucesso!" });
         }
+        [HttpDelete("{id}")]
+        public IActionResult Delete(int id)
+        {
+            using var connection = new SqliteConnection(_connectionString);
+            connection.Open();
+
+            var sql = "DELETE from usuarios WHERE Id = @Id";
+
+            using var command = new SqliteCommand(sql, connection);
+
+            command.Parameters.AddWithValue("@Id", id);
+
+            var linhasAlteradas = command.ExecuteNonQuery();
+
+            return Ok(new { mensagem = "Usuário DELETADO com sucesso!" });
+
+        }
 
     }
 }
